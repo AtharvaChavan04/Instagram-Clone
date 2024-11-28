@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/constants/utils/dimensions.dart';
+import 'package:instagram_clone/constants/utils/global_variables.dart';
 import 'package:instagram_clone/model/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
