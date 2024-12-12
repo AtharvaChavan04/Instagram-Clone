@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/utils/colors.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+  final snap;
+  const PostCard({super.key, required this.snap});
 
   @override
   Widget build(BuildContext context) {
+    // print(snap); // Check the whole object
+    // print(snap['postUrl']); // Check the postUrl value
+    // print(snap['profileImage']);
+
     return Container(
       color: mobileBackgroundColor,
       padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
@@ -19,15 +25,15 @@ class PostCard extends StatelessWidget {
             ).copyWith(right: 0),
             child: Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1521032078283-ca2eb1773c0e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGhvdG98ZW58MHx8MHx8fDA%3D',
+                    snap['profileImage'],
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 8,
                     ),
                     child: Column(
@@ -35,8 +41,8 @@ class PostCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Username",
-                          style: TextStyle(
+                          snap['username'],
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -84,7 +90,7 @@ class PostCard extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.35,
             width: double.infinity,
             child: Image.network(
-              "https://images.unsplash.com/photo-1682687982204-f1a77dcc3067?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmFuZG9tJTIwcGhvdG98ZW58MHx8MHx8fDA%3D",
+              snap['postUrl'],
               fit: BoxFit.cover,
             ),
           ),
@@ -134,7 +140,7 @@ class PostCard extends StatelessWidget {
                       .titleMedium!
                       .copyWith(fontWeight: FontWeight.w800),
                   child: Text(
-                    '1,293 likes',
+                    '${snap['likes'].length} likes',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -142,19 +148,19 @@ class PostCard extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 8),
                   child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
+                    text: TextSpan(
+                      style: const TextStyle(
                         color: primaryColor,
                       ),
                       children: [
                         TextSpan(
-                          text: 'Username',
-                          style: TextStyle(
+                          text: snap['username'],
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextSpan(
-                          text: '    This should be replaced soon enough!!',
+                          text: '  ${snap['description']}',
                         ),
                       ],
                     ),
@@ -176,8 +182,10 @@ class PostCard extends StatelessWidget {
                 //Dsiplaying Date
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: const Text(
-                    '22/12/2024',
+                  child: Text(
+                    DateFormat.yMMMd().format(
+                      snap['datePublished'].toDate(),
+                    ),
                     style: TextStyle(
                       fontSize: 16,
                       color: secondaryColor,

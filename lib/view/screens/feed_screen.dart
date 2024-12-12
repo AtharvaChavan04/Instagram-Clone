@@ -5,8 +5,7 @@ import 'package:instagram_clone/constants/utils/colors.dart';
 import 'package:instagram_clone/view/widgets/post_card.dart';
 
 class FeedScreen extends StatelessWidget {
-  final snap;
-  const FeedScreen({super.key, required this.snap});
+  const FeedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
