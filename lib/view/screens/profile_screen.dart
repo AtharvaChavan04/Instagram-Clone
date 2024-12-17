@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/utils/colors.dart';
 import 'package:instagram_clone/constants/utils/utils.dart';
@@ -14,6 +15,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var userData = {};
+  int postLen = 0;
+  int followers = 0;
+  int following = 0;
+  bool isFollowing = false;
 
   @override
   void initState() {
@@ -27,7 +32,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .collection('users')
           .doc(widget.uid)
           .get();
+
+      //get post length
+      var postSnap = await FirebaseFirestore.instance
+          .collection('posts')
+          .where(
+            'uid',
+            isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+          )
+          .get();
+
+      postLen = postSnap.docs.length;
       userData = userSnap.data()!;
+      followers = userSnap.data()!['followers'].length;
+      following = userSnap.data()!['following'].length;
+      isFollowing = userSnap.data()!['followers'].contains(
+            FirebaseAuth.instance.currentUser!.uid,
+          );
       setState(() {});
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -67,9 +88,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buildStatColumn(20, "Posts"),
-                              buildStatColumn(50, "folowers"),
-                              buildStatColumn(100, "following"),
+                              buildStatColumn(postLen, "Posts"),
+                              buildStatColumn(followers, "folowers"),
+                              buildStatColumn(following, "following"),
                             ],
                           ),
                           Row(
