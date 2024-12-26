@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .collection('posts')
           .where(
             'uid',
-            isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+            isEqualTo: widget.uid,
           )
           .get();
 
@@ -219,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 5,
-                        mainAxisExtent: 1.5,
+                        mainAxisSpacing: 5,
                         childAspectRatio: 1,
                       ),
                       itemBuilder: (context, index) {

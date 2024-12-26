@@ -43,8 +43,10 @@ class _SearchScreenState extends State<SearchScreen> {
           ? FutureBuilder(
               future: FirebaseFirestore.instance
                   .collection('users')
-                  .where('username',
-                      isGreaterThanOrEqualTo: searchController.text)
+                  .where(
+                    'username',
+                    isGreaterThanOrEqualTo: searchController.text,
+                  )
                   .get(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
