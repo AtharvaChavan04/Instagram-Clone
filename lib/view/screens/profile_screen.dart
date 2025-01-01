@@ -5,7 +5,10 @@ import 'package:instagram_clone/constants/utils/colors.dart';
 import 'package:instagram_clone/constants/utils/utils.dart';
 import 'package:instagram_clone/model/resources/auth_methods.dart';
 import 'package:instagram_clone/model/resources/firestore_methods.dart';
+import 'package:instagram_clone/view/screens/followers_screen.dart';
+import 'package:instagram_clone/view/screens/following_screen.dart';
 import 'package:instagram_clone/view/screens/login_screen.dart';
+import 'package:instagram_clone/view/screens/post_screen.dart';
 import 'package:instagram_clone/view/widgets/follow_button.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -104,8 +107,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     buildStatColumn(postLen, "Posts"),
-                                    buildStatColumn(followers, "folowers"),
-                                    buildStatColumn(following, "following"),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FollowersScreen(
+                                              followers: userData[
+                                                  'followers'], // Pass followers list
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: buildStatColumn(
+                                          followers, "followers"),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FollowingScreen(
+                                              following: userData['following'],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: buildStatColumn(
+                                          following, "following"),
+                                    ),
                                   ],
                                 ),
                                 Row(
@@ -226,10 +256,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         DocumentSnapshot snap =
                             (snapshot.data! as dynamic).docs[index];
 
-                        return SizedBox(
-                          child: Image(
-                            image: NetworkImage(snap['postUrl']),
-                            fit: BoxFit.cover,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PostScreen(snap: snap),
+                              ),
+                            );
+                          },
+                          child: SizedBox(
+                            child: Image(
+                              image: NetworkImage(snap['postUrl']),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       },

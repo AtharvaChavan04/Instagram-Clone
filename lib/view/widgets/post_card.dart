@@ -6,6 +6,7 @@ import 'package:instagram_clone/model/data_models/user_model.dart';
 import 'package:instagram_clone/model/providers/user_provider.dart';
 import 'package:instagram_clone/model/resources/firestore_methods.dart';
 import 'package:instagram_clone/view/screens/comment_screen.dart';
+import 'package:instagram_clone/view/screens/profile_screen.dart';
 import 'package:instagram_clone/view/widgets/likes_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -78,10 +79,20 @@ class _PostCardState extends State<PostCard> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.snap['username'].toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                        InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(
+                                // uid: (snapshot.data! as dynamic).docs[index]['uid'],
+                                uid: widget.snap['uid'],
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            widget.snap['username'].toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],

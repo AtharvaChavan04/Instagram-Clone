@@ -6,7 +6,7 @@ import 'package:instagram_clone/constants/utils/global_variables.dart';
 import 'package:instagram_clone/view/widgets/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+  const FeedScreen({super.key});
 
   @override
   State<FeedScreen> createState() => _FeedScreenState();

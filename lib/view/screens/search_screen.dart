@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:instagram_clone/constants/utils/colors.dart';
+import 'package:instagram_clone/view/screens/post_screen.dart';
 import 'package:instagram_clone/view/screens/profile_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -93,10 +94,23 @@ class _SearchScreenState extends State<SearchScreen> {
                 }
                 return MasonryGridView.count(
                   crossAxisCount: 3,
-                  itemBuilder: (context, index) => Image.network(
-                    (snapshot.data! as dynamic).docs[index]['postUrl'],
-                    fit: BoxFit.cover,
-                  ),
+                  itemBuilder: (context, index) {
+                    final postData =
+                        (snapshot.data! as dynamic).docs[index]; // Post data
+                    return InkWell(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PostScreen(
+                            snap: postData, // Pass the entire post data
+                          ),
+                        ),
+                      ),
+                      child: Image.network(
+                        postData['postUrl'], // Access the post image URL
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   mainAxisSpacing: 8.0,
                   crossAxisSpacing: 8.0,
